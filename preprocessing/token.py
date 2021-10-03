@@ -16,9 +16,6 @@ def ignore_stopwords(input):
 
 
 def stem(tokens):
-    for word in tokens:
-        print(word, word in string.punctuation)
-
     return [stemmer.stem(word.lower()) for word in tokens if word not in punctuation]
 
 
