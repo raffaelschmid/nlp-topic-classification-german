@@ -66,7 +66,7 @@ def calculate_embedding_matrix(vocabulary, embedding_dim=300, verbose=False):
     return embedding_matrix
 
 
-def create_word_embedding(vocabulary):
+def create_word_embedding(vocabulary, embedding_length):
     embedding_matrix = calculate_embedding_matrix(vocabulary)
     embedding_layer = Embedding(
         embedding_matrix.shape[0],
