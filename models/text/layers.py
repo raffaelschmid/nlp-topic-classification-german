@@ -13,6 +13,18 @@ def create_text_vectorization(vocabulary):
     )
 
 
+def create_word_embedding(vocabulary, embedding_length):
+    embedding_matrix = calculate_embedding_matrix(vocabulary)
+    return Embedding(
+        embedding_matrix.shape[0],
+        embedding_matrix.shape[1],
+        weights=[embedding_matrix],
+        input_length=embedding_length,
+        trainable=False,
+        mask_zero=True,
+        name="embedding"
+    )
+
 def get_embedder_fasttext(embedding_dim, model_name="cc.de.300.bin"):
     split = model_name.split(".")
     model_lang = split[1]
@@ -64,16 +76,3 @@ def calculate_embedding_matrix(vocabulary, embedding_dim=300, verbose=False):
                   random.sample(words_not_found, nr_sample), sep='')
 
     return embedding_matrix
-
-
-def create_word_embedding(vocabulary, embedding_length):
-    embedding_matrix = calculate_embedding_matrix(vocabulary)
-    embedding_layer = Embedding(
-        embedding_matrix.shape[0],
-        embedding_matrix.shape[1],
-        weights=[embedding_matrix],
-        input_length=embedding_length,
-        trainable=False,
-        mask_zero=True,
-        name="embedding"
-    )
