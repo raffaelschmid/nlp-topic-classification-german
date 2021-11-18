@@ -2,6 +2,7 @@ from keras.layers import TextVectorization
 from tensorflow.keras.layers import Embedding
 import numpy as np
 import fasttext
+from fasttext.util import download_model
 
 
 def create_text_vectorization(vocabulary):
@@ -33,7 +34,7 @@ def get_embedder_fasttext(embedding_dim, model_name="cc.de.300.bin"):
     try:
         ft = fasttext.load_model(model_name)
     except ValueError:
-        fasttext.util.download_model(model_lang, if_exists='ignore')
+        download_model(model_lang, if_exists='ignore')
         ft = fasttext.load_model(model_name)
 
     if embedding_dim < model_dim:

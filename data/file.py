@@ -9,3 +9,8 @@ news_articles_cleaned = f"{root_dir}/data/processed/german_news_articles_cleaned
 news_articles_cleaned_train = f"{root_dir}/data/processed/german_news_articles_cleaned_train.parq"
 news_articles_cleaned_test = f"{root_dir}/data/processed/german_news_articles_cleaned_test.parq"
 news_articles_cleaned_val = f"{root_dir}/data/processed/german_news_articles_cleaned_val.parq"
+
+news_articles_hf_tokenized = f"{root_dir}/data/processed/german_news_articles_hf_tokenized.parq"
+news_articles_hf_tokenized_train = f"{root_dir}/data/processed/german_news_articles_hf_tokenized_train.parq"
+news_articles_hf_tokenized_test = f"{root_dir}/data/processed/german_news_articles_hf_tokenized_test.parq"
+news_articles_hf_tokenized_val = f"{root_dir}/data/processed/german_news_articles_hf_tokenized_val.parq"
