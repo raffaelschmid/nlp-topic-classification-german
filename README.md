@@ -43,7 +43,7 @@ decided for a 70% (training) / 20% (test) / 10% (validation) split.
 ### Base Model
 
 We were told that a base Model based on TF-IDF is a proper industry standard. This notebook can be
-found [here](./notebook/modeling/).
+found [here](./notebook/modeling/03_base_model.ipynb).
 
 ### CNN
 
