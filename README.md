@@ -29,37 +29,39 @@ The dataset consists of roughly 10000 news articles that are classified in "Spor
 Inland", "Etat", "International", "Panorama" and "Wissenschaft". The dataset was given to us in form of two datasets for
 training and testing.
 
-I did Exploratory Data Analysis by [analyzing categories](./notebook/eda/01_analyze_categories.ipynb) and
-ensure [language consistency](./notebook/eda/02_analyze_language.ipynb). More information can be found in the
-correspondent notebooks.
+I did Exploratory Data Analysis by analyzing [detail data](./notebook/eda/01_example_data.ipynb),
+[missing data](./notebook/eda/02_missing_data.ipynb), [categories](./notebook/eda/03_analyze_categories.ipynb),
+[text length](./notebook/eda/04_analyze_text_length.ipynb), [language](./notebook/eda/05_analyze_language.ipynb) and
+looking at [word clouds](./notebook/eda/06_word_cloud.ipynb).
 
 ## Modeling
 
-The modeling phase was started with [data normalization](./notebook/modeling/01_normalization.ipynb) where the raw
-dataset was processed and enriched by a tokenized, lemmatized and stemmed version. I decided to join the given training
-and test dataset together in order to produce an additional validation set at a [later stage](./notebook/modeling/). I
-decided for a 70% (training) / 20% (test) / 10% (validation) split.
+The modeling phase was started with [join datasets](./notebook/modeling/00_join.ipynb) where the given datasets (
+training, test) were joined into a single one. Based on the class distribution
+I [augmented some data](./notebook/modeling/01_augmentation.ipynb) to fight class inbalance.
+Then [tokenization, stemming, lemmatization](./notebook/modeling/02_preprocessing.ipynb) was done followed by the
+[stratified split](./notebook/modeling/03_split.ipynb) into training, test and validation data.
 
 ### Base Model
 
 We were told that a base Model based on TF-IDF is a proper standard. This notebook can be
-found [here](./notebook/modeling/03_base_model.ipynb).
+found [here](./notebook/modeling/04_base_model.ipynb).
 
 ### Neuronal Networks
 
 #### CNN
 
-The [first model](./notebook/modeling/04_cnn.ipynb) was a Convolutional Neuronal Network using fasttext word embeddings
+The [first model](./notebook/modeling/05_cnn.ipynb) was a Convolutional Neuronal Network using fasttext word embeddings
 and a convolutional layer.
 
 #### RNN
 
-The [second model](./notebook/modeling/05a_rnn.ipynb) was a Recurrent Neuronal Network using fasttext word embeddings
-and an LSTM layer.
+The [second model](./notebook/modeling/06a_rnn.ipynb) was a Recurrent Neuronal Network using fasttext word embeddings
+and an LSTM layer. I tried to do some tuning in [based on tensorflow utilities](./notebook/modeling/06b_rnn-tuning.ipynb).
 
 #### Transformers (BERT)
 
-In the end I [ended up ](./notebook/modeling/06_bert.ipynb) using a model
+In the end I [ended up ](./notebook/modeling/07_bert.ipynb) using a model
 from [hugging face](https://huggingface.co/bert-base-german-cased).
 
 ## Learnings
@@ -74,8 +76,9 @@ It was hard to refactor the notebooks into normal python files due to several re
 - Jupyter Kernel does a bad job by default in reloading extracted modules.
 
 ### Libraries
-During preprocessing and training I was using different libraries: sklearn (data split, base model), tensorflow (RNN, CNN, Bert). 
 
+During preprocessing and training I was using different libraries: sklearn (data split, base model), tensorflow (RNN,
+CNN, Bert).
 
 ### GCP Vertex
 
@@ -86,8 +89,10 @@ repositories and kind of follow proper development as well as project standards.
 
 While using Vertex workbenches I experienced different issues:
 
-1. Stopping instances after work is a bad idea due to the following reason: `Restarting notebook iowa-tf-26-cpu-2-gpu-1: us-central1-a does not have enough resources available to fulfill the request. Retry later or try another zone inyour configurations.`
-2. Even when continuously running the Workbench I was running into an automatic instance update where my boot disk got lost.
+1. Stopping instances after work is a bad idea due to the following
+   reason: `Restarting notebook iowa-tf-26-cpu-2-gpu-1: us-central1-a does not have enough resources available to fulfill the request. Retry later or try another zone inyour configurations.`
+2. Even when continuously running the Workbench I was running into an automatic instance update where my boot disk got
+   lost.
 
 ## Development
 
