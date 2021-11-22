@@ -64,7 +64,7 @@ from [hugging face](https://huggingface.co/bert-base-german-cased).
 
 ## Learnings
 
-### Refactoring
+### Project Structure
 
 It was hard to refactor the notebooks into normal python files due to several reasons:
 
@@ -72,6 +72,10 @@ It was hard to refactor the notebooks into normal python files due to several re
   extract code while keeping the flexibility for training different models. E.g. TF-IDF needs much different
   preprocessing (lemmatization, stemming, etc.) than RNNs, CNNs or transformers where e.g. word vectors might be used.
 - Jupyter Kernel does a bad job by default in reloading extracted modules.
+
+### Libraries
+During preprocessing and training I was using different libraries: sklearn (data split, base model), tensorflow (RNN, CNN, Bert). 
+
 
 ### GCP Vertex
 
