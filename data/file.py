@@ -18,6 +18,13 @@ news_articles_cleaned_train = f"{root_dir}/data/processed/german_news_articles_c
 news_articles_cleaned_test = f"{root_dir}/data/processed/german_news_articles_cleaned_test.parq"
 news_articles_cleaned_val = f"{root_dir}/data/processed/german_news_articles_cleaned_val.parq"
 
+# reporting data: contains a sampled expection, prediction and category mapping
+reporting_data_report_tfidf = f"{root_dir}/data/processed/report_data_tfidf.json"
+reporting_data_report_cnn = f"{root_dir}/data/processed/report_data_cnn.json"
+reporting_data_report_rnn = f"{root_dir}/data/processed/report_data_rnn.json"
+reporting_data_report_bert = f"{root_dir}/data/processed/report_data_bert.json"
+
+
 # tokenized files for transformer input (hf=huggingface)
 news_articles_hf_tokenized = f"{root_dir}/data/processed/german_news_articles_hf_tokenized.parq"
 news_articles_hf_tokenized_train = f"{root_dir}/data/processed/german_news_articles_hf_tokenized_train.parq"
