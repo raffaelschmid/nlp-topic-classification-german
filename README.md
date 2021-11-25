@@ -25,9 +25,9 @@ statements `import src.reporting` nor to deviate from Pip defaults.
 
 ### Exploratory Data Analysis
 
-The dataset consists of roughly 10000 news articles that are classified in "Sport", "Kultur", "Web", "Wirtschaft", "
-Inland", "Etat", "International", "Panorama" and "Wissenschaft". The dataset was given to us in form of two datasets for
-training and testing.
+The dataset consists of roughly 10000 news articles that were classified in "Sport", "Kultur", "Web", "Wirtschaft",
+"Inland", "Etat", "International", "Panorama" and "Wissenschaft". The dataset was given to us in form of two datasets
+for training and testing.
 
 I did Exploratory Data Analysis by analyzing [detail data](./notebook/eda/01_example_data.ipynb),
 [missing data](./notebook/eda/02_missing_data.ipynb), [categories](./notebook/eda/03_analyze_categories.ipynb),
@@ -38,7 +38,7 @@ looking at [word clouds](./notebook/eda/06_word_cloud.ipynb).
 
 The modeling phase was started with [join datasets](./notebook/modeling/00_join.ipynb) where the given datasets (
 training, test) were joined into a single one. Based on the class distribution
-I [augmented some data](./notebook/modeling/01_augmentation.ipynb) to fight class inbalance.
+I [augmented some small amount of data](./notebook/modeling/01_augmentation.ipynb) to tackle class inbalance.
 Then [tokenization, stemming, lemmatization](./notebook/modeling/02_preprocessing.ipynb) was done followed by the
 [stratified split](./notebook/modeling/03_split.ipynb) into training, test and validation data.
 
@@ -57,12 +57,19 @@ and a convolutional layer.
 #### RNN
 
 The [second model](./notebook/modeling/06a_rnn.ipynb) was a Recurrent Neuronal Network using fasttext word embeddings
-and an LSTM layer. I tried to do some tuning in [based on tensorflow utilities](./notebook/modeling/06b_rnn-tuning.ipynb).
+and an LSTM layer. I tried to do some tuning
+in [based on tensorflow utilities](./notebook/modeling/06b_rnn-tuning.ipynb).
+
+### Evaluation
+
+For every model I persisted a sample file (e.g. [BERT](./data/processed/report_data_bert.json)) that contained two
+arrays of a) predictions and b) expectations. This allowed me to analyse and compare the different models later on
+in [Evaluation](./notebook/evaluation/02_evaluation.ipynb) while also calculating different metrics based on that data.
 
 #### Transformers (BERT)
 
-In the end I [ended up ](./notebook/modeling/07_bert.ipynb) using a model
-from [hugging face](https://huggingface.co/bert-base-german-cased).
+In the end I [ended up](./notebook/modeling/07_bert.ipynb) using a transformer based BERT model
+from [huggingface](https://huggingface.co/bert-base-german-cased).
 
 ## Learnings
 
@@ -73,24 +80,26 @@ It was hard to refactor the notebooks into normal python files due to several re
 - Preprocessing (cleaning, tokenization, etc.) and training are highly coupled and its hard to find a good way to
   extract code while keeping the flexibility for training different models. E.g. TF-IDF needs much different
   preprocessing (lemmatization, stemming, etc.) than RNNs, CNNs or transformers where e.g. word vectors might be used.
-- Jupyter Kernel does a bad job by default in reloading extracted modules.
+- Refactoring: Extracting a function into a python module too early is problematic due to the fact that reloading
+  modules is badly supported in Jupyter notebooks. On the other hand is refactoring inside notebooks pretty hard (even
+  when using PyCharm or VSCode).
 
 ### Libraries
 
 During preprocessing and training I was using different libraries: sklearn (data split, base model), tensorflow (RNN,
-CNN, Bert).
+CNN, Bert). It felt a bit awkward to train a model using tensorflow and evaluate it using sklearn libraries (sklearn
+confusion_matrix).
 
 ### GCP Vertex
 
 I was using a Vertex AI workbench on Google Cloud Platform to code and train. My laptop does not have a suitable GPU and
 GCP provides GPU support for a decent amount of money. Additionally it lets you connect
-with [Github](https://github.com)
-repositories and kind of follow proper development as well as project standards.
+with [Github](https://github.com) repositories and kind of lets you follow proper development and project standards.
 
 While using Vertex workbenches I experienced different issues:
 
-1. Stopping instances after work is a bad idea due to the following
-   reason: `Restarting notebook iowa-tf-26-cpu-2-gpu-1: us-central1-a does not have enough resources available to fulfill the request. Retry later or try another zone inyour configurations.`
+1. Stopping instances after work is a bad idea due to the fact that you might get into the problem of reallocating GPU
+   resources.
 2. Even when continuously running the Workbench I was running into an automatic instance update where my boot disk got
    lost.
 
