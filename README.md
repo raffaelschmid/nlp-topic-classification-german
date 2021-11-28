@@ -21,8 +21,7 @@ statements `import src.reporting` nor to deviate from Pip defaults.
 | /reporting     | Extracted Python code that is used during reporting.                                                                                                       |
 | /tests         | Module tests                                                                                                                                               |
 
-## Procedure
-
+## Project
 ### Exploratory Data Analysis
 
 The dataset consists of roughly 10000 news articles that were classified in "Sport", "Kultur", "Web", "Wirtschaft",
@@ -34,7 +33,7 @@ I did Exploratory Data Analysis by analyzing [detail data](./notebook/eda/01_exa
 [text length](./notebook/eda/04_analyze_text_length.ipynb), [language](./notebook/eda/05_analyze_language.ipynb) and
 looking at [word clouds](./notebook/eda/06_word_cloud.ipynb).
 
-## Modeling
+### Modeling
 
 The modeling phase was started with [join datasets](./notebook/modeling/00_join.ipynb) where the given datasets (
 training, test) were joined into a single one. Based on the class distribution
@@ -42,23 +41,26 @@ I [augmented some small amount of data](./notebook/modeling/01_augmentation.ipyn
 Then [tokenization, stemming, lemmatization](./notebook/modeling/02_preprocessing.ipynb) was done followed by the
 [stratified split](./notebook/modeling/03_split.ipynb) into training, test and validation data.
 
-### Base Model
+#### Base Model
 
 We were told that a base Model based on TF-IDF is a proper standard. This notebook can be
 found [here](./notebook/modeling/04_base_model.ipynb).
 
-### Neuronal Networks
-
 #### CNN
 
-The [first model](./notebook/modeling/05_cnn.ipynb) was a Convolutional Neuronal Network using fasttext word embeddings
+The [first model](./notebook/modeling/05_cnn.ipynb) was a Convolutional Neural Network using fasttext word embeddings
 and a convolutional layer.
 
 #### RNN
 
-The [second model](./notebook/modeling/06a_rnn.ipynb) was a Recurrent Neuronal Network using fasttext word embeddings
+The [second model](./notebook/modeling/06a_rnn.ipynb) was a Recurrent Neural Network using fasttext word embeddings
 and an LSTM layer. I tried to do some tuning
 in [based on tensorflow utilities](./notebook/modeling/06b_rnn-tuning.ipynb).
+
+#### Transformers (BERT)
+
+In the end I [ended up](./notebook/modeling/07_bert.ipynb) using a transformer based BERT model
+from [huggingface](https://huggingface.co/bert-base-german-cased).
 
 ### Evaluation
 
@@ -66,31 +68,33 @@ For every model I persisted a sample file (e.g. [BERT](./data/processed/report_d
 arrays of a) predictions and b) expectations. This allowed me to analyse and compare the different models later on
 in [Evaluation](./notebook/evaluation/02_evaluation.ipynb) while also calculating different metrics based on that data.
 
-#### Transformers (BERT)
+### Conclusion
 
-In the end I [ended up](./notebook/modeling/07_bert.ipynb) using a transformer based BERT model
-from [huggingface](https://huggingface.co/bert-base-german-cased).
-
-## Learnings
-
-### Project Structure
+#### Project Structure
 
 It was hard to refactor the notebooks into normal python files due to several reasons:
 
 - Preprocessing (cleaning, tokenization, etc.) and training are highly coupled and its hard to find a good way to
   extract code while keeping the flexibility for training different models. E.g. TF-IDF needs much different
-  preprocessing (lemmatization, stemming, etc.) than RNNs, CNNs or transformers where e.g. word vectors might be used.
-- Refactoring: Extracting a function into a python module too early is problematic due to the fact that reloading
-  modules is badly supported in Jupyter notebooks. On the other hand is refactoring inside notebooks pretty hard (even
-  when using PyCharm or VSCode).
+  preprocessing (lemmatization, stemming, etc.) than RNNs, CNNs (word vectors) or transformers (pretrained tokenizers).
+- Reloading: Reloading code that is outside Jupyter notebooks often requires restarting of kernel which makes it even
+  harder to refactor.
 
-### Libraries
+#### Version Control
+
+It is a nice feature of Jupyter notebooks that cell outputs are stored within the files because it makes it easy to
+share and review files. Those cells however can be very annoying when put under version control due to the fact that
+upon almost every run changes are detected. An option would be to
+use [Git smudge filters](https://nbsphinx.readthedocs.io/en/latest/usage.html#Using-Notebooks-with-Git), however this
+would make our notebooks not reviewable anymore.
+
+#### Libraries
 
 During preprocessing and training I was using different libraries: sklearn (data split, base model), tensorflow (RNN,
 CNN, Bert). It felt a bit awkward to train a model using tensorflow and evaluate it using sklearn libraries (sklearn
-confusion_matrix).
+confusion_matrix), I was aiming for using either one or the other.
 
-### GCP Vertex
+#### GCP Vertex
 
 I was using a Vertex AI workbench on Google Cloud Platform to code and train. My laptop does not have a suitable GPU and
 GCP provides GPU support for a decent amount of money. Additionally it lets you connect
