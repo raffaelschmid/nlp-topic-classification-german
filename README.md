@@ -16,7 +16,7 @@ statements `import src.reporting` nor to deviate from Pip defaults.
 | /data          | Storage location for data. Raw data is downloaded to raw, after processing stored to processed. Trained models are stored in model subdirectory.           |
 | /docs          | Documentation that is not part of the code.                                                                                                                |
 | /models        | Location for model definitions.                                                                                                                            |
-| /notebooks     | Jupyter notebooks are stored in the eda (Exploratory Data Analysis), poc (Proof of concepts), modeling (Modeling) and evaluation (Evaluation) directories. |
+| /notebooks     | Jupyter notebooks are stored in the eda (Exploratory Data Analysis), modeling (Modeling) and evaluation (Evaluation) directories.                          |
 | /preprocessing | Extracted Python code that is used during data preprocessing.                                                                                              |
 | /reporting     | Extracted Python code that is used during reporting.                                                                                                       |
 | /tests         | Module tests                                                                                                                                               |
